@@ -21,15 +21,15 @@
 #include "ArrayADT.h"
 int main()
 {
+	LinkedList<int> list;
+
+	for (size_t i = 0; i < 2; i++)
 	{
-		LinkedList<int> list;
-		list.Add(1);
-		list.Add(2);
-		list.Add(3);
-		list.Display();
-		list.Remove(1);
-		list.Display();
+		list.Add(i);
 	}
+	list.ReverseRecursive();
+	list.Display();
+	list.~LinkedList();
 	_CrtDumpMemoryLeaks();
 }
 

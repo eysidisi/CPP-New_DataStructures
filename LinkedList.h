@@ -1,19 +1,21 @@
 #pragma once
 #include <iostream>
+template <typename  K>
+struct ListNode
+{
+	K data;
+	ListNode<K>* nextNode;
+};
+
 template <class T>
 class LinkedList
 {
-private:
-	template <class K>
-	struct ListNode
-	{
-		K data;
-		ListNode<K>* nextNode;
-	};
 
 private:
 	ListNode<T>* headNode = nullptr;
 	int length = 0;
+private:
+	ListNode<T>* ReverseRecursive(ListNode<T>* tailNode, ListNode<T>* leadingNode);
 public:
 	~LinkedList();
 public:
@@ -43,14 +45,52 @@ public:
 	/// <param name="element"></param>
 	/// <param name="index"></param>
 	void Insert(T element, int index);
-
 	/// <summary>
 	/// Deletes the element at the given index
 	/// </summary>
 	/// <param name="index"></param>
 	void Remove(size_t index = 0);
+	/// <summary>
+	/// Sorts list in a ascending order using Binary Sort algorithm
+	/// </summary>
+	void BinarySort();
+	/// <summary>
+	/// Checks if the list is sorted in ascending order
+	/// </summary>
+	/// <returns></returns>
+	bool IsSortedInAscending();
+	/// <summary>
+	/// Checks if the list is sorted in descending order
+	/// </summary>
+	/// <returns></returns>
+	bool IsSortedInDescending();
+	/// <summary>
+	/// Removes duplicates from the list
+	/// </summary>
+	void RemoveDuplicates();
+	/// <summary>
+	/// Reverses the list elements order
+	/// </summary>
+	void Reverse();
+	/// <summary>
+	/// Reverses the list int a recursive manner
+	/// </summary>
+	void ReverseRecursive();
 };
 
+
+template<class T>
+inline ListNode<T>* LinkedList<T>::ReverseRecursive(ListNode<T>* tailNode, ListNode<T>* leadingNode)
+{
+	if (leadingNode == nullptr)
+	{
+		headNode = tailNode;
+		return tailNode;
+	}
+
+	ReverseRecursive(leadingNode, leadingNode->nextNode)->nextNode = tailNode;
+	return tailNode;
+}
 
 template<class T>
 LinkedList<T>::~LinkedList()
@@ -196,4 +236,168 @@ inline void LinkedList<T>::Remove(size_t index)
 	delete(nodeToDelete);
 
 	length--;
+}
+
+template<class T>
+inline void LinkedList<T>::BinarySort()
+{
+	if (length == 0 || length == 1)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < length - 1; i++)
+	{
+		ListNode<T>* followerNode = headNode;
+		ListNode<T>* leadingNode = headNode->nextNode;
+
+		bool swappedAtLeastOne = false;
+
+		for (size_t j = 0; j < length - i - 1; j++)
+		{
+
+			if (followerNode->data > leadingNode->data)
+			{
+				T tempData = leadingNode->data;
+				leadingNode->data = followerNode->data;
+				followerNode->data = tempData;
+				swappedAtLeastOne = true;
+			}
+
+			followerNode = leadingNode;
+			leadingNode = leadingNode->nextNode;
+		}
+
+		if (!swappedAtLeastOne)
+		{
+			break;
+		}
+	}
+}
+
+template<class T>
+inline bool LinkedList<T>::IsSortedInAscending()
+{
+	if (length == 0 || length == 1)
+	{
+		return true;
+	}
+
+	ListNode<T>* leadingNode = headNode->nextNode;
+	ListNode<T>* followerNode = headNode;
+
+	while (leadingNode != nullptr)
+	{
+		if (followerNode->data > leadingNode->data)
+		{
+			return false;
+		}
+
+		followerNode = leadingNode;
+		leadingNode = leadingNode->nextNode;
+	}
+
+	return true;
+}
+
+template<class T>
+inline bool LinkedList<T>::IsSortedInDescending()
+{
+	if (length == 0 || length == 1)
+	{
+		return true;
+	}
+	ListNode<T>* leadingNode = headNode->nextNode;
+	ListNode<T>* followerNode = headNode;
+
+	while (leadingNode != nullptr)
+	{
+		if (followerNode->data < leadingNode->data)
+		{
+			return false;
+		}
+
+		followerNode = leadingNode;
+		leadingNode = leadingNode->nextNode;
+	}
+
+	return true;
+}
+
+template<class T>
+inline void LinkedList<T>::RemoveDuplicates()
+{
+	if (length == 0 || length == 1)
+	{
+		return;
+	}
+
+	ListNode<T>* fixedNode = headNode;
+
+	while (fixedNode != nullptr)
+	{
+		ListNode<T>* movingNode = fixedNode->nextNode;
+		ListNode<T>* followerNode = fixedNode;
+
+		while (movingNode != nullptr)
+		{
+			if (movingNode->data == fixedNode->data)
+			{
+				followerNode->nextNode = movingNode->nextNode;
+				delete(movingNode);
+				movingNode = followerNode->nextNode;
+				length--;
+			}
+
+			else
+			{
+				followerNode = movingNode;
+				movingNode = movingNode->nextNode;
+			}
+		}
+
+		fixedNode = fixedNode->nextNode;
+	}
+}
+
+template<class T>
+inline void LinkedList<T>::Reverse()
+{
+	if (length == 0 || length == 1)
+	{
+		return;
+	}
+
+	ListNode<T>* tailNode = nullptr;
+	ListNode<T>* middleNode = headNode;
+	ListNode<T>* leadingNode = middleNode->nextNode;
+
+	while (middleNode != nullptr)
+	{
+		ListNode<T>* tempNode = nullptr;
+
+		if (leadingNode != nullptr)
+		{
+			tempNode = leadingNode->nextNode;
+		}
+		middleNode->nextNode = tailNode;
+
+		tailNode = middleNode;
+		middleNode = leadingNode;
+		leadingNode = tempNode;
+	}
+
+	headNode = tailNode;
+}
+
+template<class T>
+inline void LinkedList<T>::ReverseRecursive()
+{
+	if (length == 0 || length == 1)
+	{
+		return;
+	}
+
+	ListNode<T>* lastNode = ReverseRecursive(headNode, headNode->nextNode);
+	lastNode->nextNode = nullptr;
 }
