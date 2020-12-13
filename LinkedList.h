@@ -76,6 +76,8 @@ public:
 	/// Reverses the list int a recursive manner
 	/// </summary>
 	void ReverseRecursive();
+
+	static LinkedList<T> Concatenate(LinkedList<T> list1, LinkedList<T> list2);
 };
 
 
@@ -400,4 +402,26 @@ inline void LinkedList<T>::ReverseRecursive()
 
 	ListNode<T>* lastNode = ReverseRecursive(headNode, headNode->nextNode);
 	lastNode->nextNode = nullptr;
+}
+
+template<class T>
+inline LinkedList<T> LinkedList<T>::Concatenate(LinkedList<T> list1, LinkedList<T> list2)
+{
+	LinkedList<T> newList;
+
+	ListNode<T>* list1HeadNode = list1.headNode;
+	while (list1HeadNode != nullptr)
+	{
+		newList.Add(list1HeadNode->data);
+		list1HeadNode = list1HeadNode->nextNode;
+	}
+
+	ListNode<T>* list2HeadNode = list2.headNode;
+	while (list2HeadNode != nullptr)
+	{
+		newList.Add(list2HeadNode->data);
+		list2HeadNode = list2HeadNode->nextNode;
+	}
+
+	return newList;
 }

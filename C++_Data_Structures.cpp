@@ -21,15 +21,16 @@
 #include "ArrayADT.h"
 int main()
 {
-	LinkedList<int> list;
-
+	LinkedList<int> list1;
+	LinkedList<int> list2;
 	for (size_t i = 0; i < 2; i++)
 	{
-		list.Add(i);
+		list1.Add(i);
+		list2.Add(i*2);
 	}
-	list.ReverseRecursive();
-	list.Display();
-	list.~LinkedList();
+
+	LinkedList<int>::Concatenate(list1, list2).Display();
+
 	_CrtDumpMemoryLeaks();
 }
 
