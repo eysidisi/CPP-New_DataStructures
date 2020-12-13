@@ -26,6 +26,7 @@ public:
 	}
 	LinkedList(const LinkedList& r)
 	{
+
 		headNode = nullptr;
 		ListNode<T>* tempHeadNode = r.headNode;
 
@@ -93,10 +94,22 @@ public:
 	/// Reverses the list int a recursive manner
 	/// </summary>
 	void ReverseRecursive();
-	LinkedList<T> operator=(const LinkedList& b);
+	/// <summary>
+	/// Concatenates two lists and returns a new list
+	/// </summary>
+	/// <param name="list1"></param>
+	/// <param name="list2"></param>
+	/// <returns></returns>
 	static LinkedList<T> Concatenate(LinkedList<T> list1, LinkedList<T> list2);
+	/// <summary>
+	/// Sorts two lists and then creates a new list by merging the two lists
+	/// </summary>
+	/// <param name="list1"></param>
+	/// <param name="list2"></param>
+	/// <returns></returns>
+	static LinkedList<T> Merge(LinkedList<T> list1, LinkedList<T> list2);
+	LinkedList<T> operator=(const LinkedList& b);
 };
-
 
 template<class T>
 inline ListNode<T>* LinkedList<T>::ReverseRecursive(ListNode<T>* tailNode, ListNode<T>* leadingNode)
@@ -422,6 +435,53 @@ inline void LinkedList<T>::ReverseRecursive()
 }
 
 template<class T>
+inline LinkedList<T> LinkedList<T>::Merge(LinkedList<T> list1, LinkedList<T> list2)
+{
+
+	LinkedList<T> newList;
+	LinkedList<T> copyList1 = LinkedList<T>(list1);
+	LinkedList<T> copyList2 = LinkedList<T>(list2);
+
+	copyList1.BinarySort();
+	copyList2.BinarySort();
+	
+	ListNode<T>* list1TempHead = copyList1.headNode;
+	ListNode<T>* list2TempHead = copyList2.headNode;
+
+	while (list1TempHead != nullptr && list2TempHead != nullptr)
+	{
+		if (list1TempHead->data > list2TempHead->data)
+		{
+			newList.Add(list2TempHead->data);
+			list2TempHead = list2TempHead->nextNode;
+		}
+
+		else
+		{
+			newList.Add(copyList1.headNode->data);
+			list1TempHead = list1TempHead->nextNode;
+		}
+	}
+
+	ListNode<T>* ptr;
+	if (list1TempHead ==nullptr)
+	{
+		ptr = list2TempHead;
+	}
+	else
+	{
+		ptr = list1TempHead;
+	}
+
+	while (ptr!=nullptr)
+	{
+		newList.Add(ptr->data);
+		ptr = ptr->nextNode;
+	}
+	return newList;
+}
+
+template<class T>
 inline LinkedList<T> LinkedList<T>::operator=(const LinkedList& b)
 {
 	this->length = b.length;
@@ -439,14 +499,12 @@ inline LinkedList<T> LinkedList<T>::Concatenate(const LinkedList<T> list1, const
 		(newList).Add(list1HeadNode->data);
 		list1HeadNode = list1HeadNode->nextNode;
 	}
-	list1HeadNode = nullptr;
 	ListNode<T>* list2HeadNode = list2.headNode;
 	while (list2HeadNode != nullptr)
 	{
 		(newList).Add(list2HeadNode->data);
 		list2HeadNode = list2HeadNode->nextNode;
 	}
-	list2HeadNode = nullptr;
 
 	return newList;
 }
