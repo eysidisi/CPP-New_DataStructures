@@ -19,6 +19,23 @@ private:
 public:
 	~LinkedList();
 public:
+	LinkedList()
+	{
+		headNode = nullptr;
+		length = 0;
+	}
+	LinkedList(const LinkedList& r)
+	{
+		headNode = nullptr;
+		ListNode<T>* tempHeadNode = r.headNode;
+
+		while (tempHeadNode != nullptr)
+		{
+			Add(tempHeadNode->data);
+			tempHeadNode = tempHeadNode->nextNode;
+		}
+	}
+
 	/// <summary>
 	/// Adds newData to the end of list
 	/// </summary>
@@ -76,7 +93,7 @@ public:
 	/// Reverses the list int a recursive manner
 	/// </summary>
 	void ReverseRecursive();
-
+	LinkedList<T> operator=(const LinkedList& b);
 	static LinkedList<T> Concatenate(LinkedList<T> list1, LinkedList<T> list2);
 };
 
@@ -405,23 +422,32 @@ inline void LinkedList<T>::ReverseRecursive()
 }
 
 template<class T>
-inline LinkedList<T> LinkedList<T>::Concatenate(LinkedList<T> list1, LinkedList<T> list2)
+inline LinkedList<T> LinkedList<T>::operator=(const LinkedList& b)
+{
+	this->length = b.length;
+	this->headNode = b.headNode;
+}
+
+template<class T>
+inline LinkedList<T> LinkedList<T>::Concatenate(const LinkedList<T> list1, const LinkedList<T> list2)
 {
 	LinkedList<T> newList;
 
 	ListNode<T>* list1HeadNode = list1.headNode;
 	while (list1HeadNode != nullptr)
 	{
-		newList.Add(list1HeadNode->data);
+		(newList).Add(list1HeadNode->data);
 		list1HeadNode = list1HeadNode->nextNode;
 	}
-
+	list1HeadNode = nullptr;
 	ListNode<T>* list2HeadNode = list2.headNode;
 	while (list2HeadNode != nullptr)
 	{
-		newList.Add(list2HeadNode->data);
+		(newList).Add(list2HeadNode->data);
 		list2HeadNode = list2HeadNode->nextNode;
 	}
+	list2HeadNode = nullptr;
 
 	return newList;
 }
+

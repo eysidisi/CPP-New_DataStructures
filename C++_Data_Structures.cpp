@@ -26,11 +26,13 @@ int main()
 	for (size_t i = 0; i < 2; i++)
 	{
 		list1.Add(i);
-		list2.Add(i*2);
+		list2.Add((i + 1) * 2);
 	}
-
-	LinkedList<int>::Concatenate(list1, list2).Display();
-
+	LinkedList<int> a = LinkedList<int>::Concatenate(list1, list2);
+	a.Display();
+	list1.~LinkedList();
+	list2.~LinkedList();
+	a.~LinkedList();
 	_CrtDumpMemoryLeaks();
 }
 
