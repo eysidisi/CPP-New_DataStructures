@@ -59,7 +59,7 @@ inline void StackUsingArray<T>::Display()
 template<class T>
 inline T StackUsingArray<T>::Pop()
 {
-	if (_count==0)
+	if (_count == 0)
 	{
 		return NULL;
 	}
@@ -88,3 +88,5 @@ inline bool StackUsingArray<T>::IsFull()
 {
 	return _count == _length;
 }
+
+

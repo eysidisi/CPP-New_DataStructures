@@ -144,7 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayADT.h" />
+    <ClInclude Include="C++_Data_Structures.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="Recursion.h" />
     <ClInclude Include="StackUsingArray.h" />
   </ItemGroup>
