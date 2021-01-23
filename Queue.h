@@ -1,4 +1,8 @@
 #pragma once
+/// <summary>
+/// A Queue implementation using one array and two array index parameters
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template <class T>
 class Queue
 {
@@ -6,16 +10,16 @@ private:
 	int size;
 	int count;
 	T* arrPtr;
-	int headIndex;
-	int endIndex;
+	int headPtrIndex;
+	int endPtrIndex;
 public:
 	Queue()
 	{
 		size = 5;
 		count = 0;
 		arrPtr = new T[size];
-		headIndex = -1;
-		endIndex = -1;
+		headPtrIndex = -1;
+		endPtrIndex = -1;
 	}
 	void Enqueue(T element);
 	T Dequeue();
@@ -37,12 +41,12 @@ inline void Queue<T>::Enqueue(T element)
 		IncreaseArrSize();
 	}
 
-	else if (endIndex == size - 1)
+	else if (endPtrIndex == size - 1)
 	{
 		OrginizeArr();
 	}
 
-	arrPtr[++endIndex] = element;
+	arrPtr[++endPtrIndex] = element;
 	count++;
 }
 
@@ -55,7 +59,7 @@ inline T Queue<T>::Dequeue()
 	}
 
 	count--;
-	return arrPtr[++headIndex];
+	return arrPtr[++headPtrIndex];
 }
 
 template<class T>
@@ -83,12 +87,12 @@ template<class T>
 inline void Queue<T>::OrginizeArr()
 {
 	T* tempPtr = new T[size];
-	headIndex = -1;
-	endIndex = -1;
+	headPtrIndex = -1;
+	endPtrIndex = -1;
 	for (int i = 0; i < count; i++)
 	{
 		tempPtr[i] = arrPtr[i];
-		endIndex++;
+		endPtrIndex++;
 	}
 	delete[] arrPtr;
 	arrPtr = tempPtr;
