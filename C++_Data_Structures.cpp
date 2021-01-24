@@ -8,27 +8,23 @@
 #include "StackUsingArray.h"
 #include "Queue.h"
 #include "C++_Data_Structures.h"
-using namespace std;
+#include "BinaryTree.h"
+
 
 int main()
 {
 	{
-		Queue<int> q;
-
-		for (size_t i = 0; i < 10; i++)
+		BinaryTree<int> tree;
+		for (int i = 0; i < 7; i++)
 		{
-			q.Enqueue(i);
+			tree.Insert(i);
 		}
-		q.Dequeue();
-		q.Dequeue();
-	
 
-		q.Enqueue(10);
-		int numOfElements=q.GetCount();
-		for (size_t i = 0; i < numOfElements; i++)
-		{
-			std::cout << q.Dequeue() << " ";
-		}
+		tree.DisplayPreOrder();
+		std::cout << std::endl;
+		tree.DisplayInOrder();
+		std::cout << std::endl;
+		tree.DisplayPostOrder();
 	}
 
 	_CrtDumpMemoryLeaks();

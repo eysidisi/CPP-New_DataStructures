@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayADT.h" />
+    <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="C++_Data_Structures.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Queue.h" />
