@@ -15,16 +15,15 @@ int main()
 {
 	{
 		BinaryTree<int> tree;
-		for (int i = 0; i < 7; i++)
+		for (int i = 1; i < 18; i++)
 		{
 			tree.Insert(i);
 		}
 
-		tree.DisplayPreOrder();
-		std::cout << std::endl;
-		tree.DisplayInOrder();
-		std::cout << std::endl;
 		tree.DisplayPostOrder();
+		std::cout << std::endl;
+		tree.IterativeDisplayPostOrder();
+		std::cout << std::endl;
 	}
 
 	_CrtDumpMemoryLeaks();

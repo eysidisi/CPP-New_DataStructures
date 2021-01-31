@@ -66,13 +66,25 @@ public:
 	/// </summary>	
 	void DisplayPreOrder();
 	/// <summary>
+	/// Displays tree elements in pre-order manner using a loop instead of recursion
+	/// </summary>	
+	void IterativeDisplayPreOrder();
+	/// <summary>
 	/// Displays tree elements in in-order manner
 	/// </summary>
 	void DisplayInOrder();
 	/// <summary>
+	/// Displays tree elements in in-order manner using a loop instead of recursion
+	/// </summary>	
+	void IterativeDisplayInOrder();
+	/// <summary>
 	/// Displays tree elements in post-order manner
 	/// </summary>
 	void DisplayPostOrder();
+	/// <summary>
+	/// Displays tree elements in post-order manner using a loop instead of recursion
+	/// </summary>	
+	void IterativeDisplayPostOrder();
 };
 
 template<class T>
@@ -111,7 +123,7 @@ inline void BinaryTree<T>::RecursiveDisplayPostOrder(Node<T>* node)
 
 	RecursiveDisplayPostOrder(node->lChild);
 	RecursiveDisplayPostOrder(node->rChild);
-	std::cout << node->value<<" ";
+	std::cout << node->value << " ";
 }
 
 template<class T>
@@ -158,13 +170,97 @@ inline void BinaryTree<T>::DisplayPreOrder()
 }
 
 template<class T>
+inline void BinaryTree<T>::IterativeDisplayPreOrder()
+{
+	std::stack<Node<T>*> nodeStack;
+
+	Node<T>* currentNode = rootNode;
+
+
+	while (currentNode != nullptr || !nodeStack.empty())
+	{
+		if (currentNode != nullptr)
+		{
+			std::cout << currentNode->value << " ";
+			nodeStack.push(currentNode);
+			currentNode = currentNode->lChild;
+		}
+
+		else
+		{
+			currentNode = nodeStack.top();
+			nodeStack.pop();
+			currentNode = currentNode->rChild;
+		}
+	}
+}
+
+template<class T>
 inline void BinaryTree<T>::DisplayInOrder()
 {
 	RecursiveDisplayInOrder(rootNode);
 }
 
 template<class T>
+inline void BinaryTree<T>::IterativeDisplayInOrder()
+{
+	std::stack<Node<T>*> nodeStack;
+
+	Node<T>* currentNode = rootNode;
+
+	while (!nodeStack.empty() || currentNode != nullptr)
+	{
+		if (currentNode != nullptr)
+		{
+			nodeStack.push(currentNode);
+			currentNode = currentNode->lChild;
+		}
+
+		else
+		{
+			currentNode = nodeStack.top();
+			std::cout << currentNode->value << " ";
+			nodeStack.pop();
+			currentNode = currentNode->rChild;
+		}
+	}
+}
+
+template<class T>
 inline void BinaryTree<T>::DisplayPostOrder()
 {
 	RecursiveDisplayPostOrder(rootNode);
+}
+
+template<class T>
+inline void BinaryTree<T>::IterativeDisplayPostOrder()
+{
+	std::stack<Node<T>*> nodeStack1, nodeStack2;
+
+	Node<T>* currentNode = nullptr;
+
+	bool printNode = false;
+	nodeStack1.push(rootNode);
+	while (!nodeStack1.empty())
+	{
+		currentNode = nodeStack1.top();
+		nodeStack2.push(currentNode);
+		nodeStack1.pop();
+
+		if (currentNode->lChild)
+		{
+			nodeStack1.push(currentNode->lChild);
+		}
+
+		if (currentNode->rChild)
+		{
+			nodeStack1.push(currentNode->rChild);
+		}
+	}
+
+	while (!nodeStack2.empty())
+	{
+		std::cout << (nodeStack2.top())->value<< " ";
+		nodeStack2.pop();
+	}
 }
