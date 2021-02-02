@@ -57,7 +57,7 @@ private:
 	void RecursiveDisplayPostOrder(Node<T>* node);
 public:
 	/// <summary>
-	/// Inserts given element into the tree using pre-order fashion
+	/// Inserts given element into the tree level by level
 	/// </summary>
 	/// <param name="element"></param>
 	void Insert(T elementValue);
@@ -85,6 +85,10 @@ public:
 	/// Displays tree elements in post-order manner using a loop instead of recursion
 	/// </summary>	
 	void IterativeDisplayPostOrder();
+	/// <summary>
+	/// Displays tree by level order
+	/// </summary>
+	void LevelOrderTraversal();
 };
 
 template<class T>
@@ -260,7 +264,33 @@ inline void BinaryTree<T>::IterativeDisplayPostOrder()
 
 	while (!nodeStack2.empty())
 	{
-		std::cout << (nodeStack2.top())->value<< " ";
+		std::cout << (nodeStack2.top())->value << " ";
 		nodeStack2.pop();
+	}
+}
+
+template<class T>
+inline void BinaryTree<T>::LevelOrderTraversal()
+{
+	std::queue<Node<T>*>nodeQueue;
+	nodeQueue.push(rootNode);
+	Node<T>* currentNode;
+
+	while (!nodeQueue.empty())
+	{
+		currentNode = nodeQueue.front();
+		nodeQueue.pop();
+
+		std::cout << currentNode->value;
+
+		if (currentNode->lChild!=nullptr)
+		{
+			nodeQueue.push(currentNode->lChild);
+		}
+		
+		if (currentNode->rChild!= nullptr)
+		{
+			nodeQueue.push(currentNode->rChild);
+		}
 	}
 }
