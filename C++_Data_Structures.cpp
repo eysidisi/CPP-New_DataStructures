@@ -8,19 +8,18 @@
 #include "StackUsingArray.h"
 #include "Queue.h"
 #include "C++_Data_Structures.h"
-#include "BinaryTree.h"
-
+#include "BinarySearchTree.h"
 
 int main()
 {
 	{
-		BinaryTree<int> tree;
-		for (int i = 0; i < 10; i++)
-		{
-			tree.Insert(i);
-		}
-
-		tree.LevelOrderTraversal();
+		BinarySearchTree<int> tree;
+		tree.InsertIterative(0);
+		tree.InsertIterative(1);
+		tree.InsertIterative(-3);
+		tree.InsertIterative(5);
+		std::cout << tree.SearchForElement(-9);
+		
 	}
 
 	_CrtDumpMemoryLeaks();
