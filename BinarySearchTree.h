@@ -25,6 +25,7 @@ public:
 
 private:
 	void DisplayInOrderPrivate(Node<T>* node);
+	void PrivateInsertRecursive(Node<T>* node, T element);
 };
 
 template<class T>
@@ -70,6 +71,13 @@ inline void BinarySearchTree<T>::InsertIterative(T element)
 template<class T>
 inline void BinarySearchTree<T>::InsertRecursive(T element)
 {
+	if (rootNode==nullptr)
+	{
+		rootNode = new Node<T>();
+		rootNode->value = element;
+		return;
+	}
+	PrivateInsertRecursive(rootNode, element);
 }
 
 template<class T>
@@ -151,6 +159,32 @@ inline void BinarySearchTree<T>::DisplayInOrderPrivate(Node<T>* node)
 	DisplayInOrderPrivate(node->lChild);
 	std::cout << node->value << " ";
 	DisplayInOrderPrivate(node->rChild);
+}
+
+template<class T>
+inline void BinarySearchTree<T>::PrivateInsertRecursive(Node<T>* node, T element)
+{
+	if (element >= node->value)
+	{
+		if (node->rChild == nullptr)
+		{
+			node->rChild = new Node<T>();
+			node->rChild->value = element;
+			return;
+		}
+		PrivateInsertRecursive(node->rChild, element);
+	}
+
+	else
+	{
+		if (node->lChild == nullptr)
+		{
+			node->lChild = new Node<T>();
+			node->lChild->value = element;
+			return;
+		}
+		PrivateInsertRecursive(node->lChild, element);
+	}
 }
 
 template<class T>

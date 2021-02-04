@@ -14,12 +14,12 @@ int main()
 {
 	{
 		BinarySearchTree<int> tree;
-		tree.InsertIterative(0);
-		tree.InsertIterative(1);
-		tree.InsertIterative(-3);
-		tree.InsertIterative(5);
-		std::cout << tree.SearchForElement(-9);
-		
+		tree.InsertRecursive(0);
+		tree.InsertRecursive(1);
+		tree.InsertRecursive(-3);
+		tree.InsertRecursive(5);
+		tree.DisplayInOrderIterative();
+
 	}
 
 	_CrtDumpMemoryLeaks();
