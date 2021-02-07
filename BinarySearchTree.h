@@ -21,11 +21,14 @@ public:
 	void DisplayLevelOrder();
 	void DisplayInOrderRecursive();
 	void DisplayInOrderIterative();
+	void DeleteElement(T element);
 	bool SearchForElement(T element);
 
 private:
 	void DisplayInOrderPrivate(Node<T>* node);
 	void PrivateInsertRecursive(Node<T>* node, T element);
+	Node<T>* PrivateDeleteRecursively(Node<T>* currentNode, T elementToDelete);
+	Node<T>* FindPredecessor(Node<T>* nodePtr);
 };
 
 template<class T>
@@ -71,7 +74,7 @@ inline void BinarySearchTree<T>::InsertIterative(T element)
 template<class T>
 inline void BinarySearchTree<T>::InsertRecursive(T element)
 {
-	if (rootNode==nullptr)
+	if (rootNode == nullptr)
 	{
 		rootNode = new Node<T>();
 		rootNode->value = element;
@@ -149,6 +152,12 @@ inline void BinarySearchTree<T>::DisplayInOrderIterative()
 }
 
 template<class T>
+inline void BinarySearchTree<T>::DeleteElement(T element)
+{
+	PrivateDeleteRecursively(rootNode, element);
+}
+
+template<class T>
 inline void BinarySearchTree<T>::DisplayInOrderPrivate(Node<T>* node)
 {
 	if (node == nullptr)
@@ -172,9 +181,11 @@ inline void BinarySearchTree<T>::PrivateInsertRecursive(Node<T>* node, T element
 			node->rChild->value = element;
 			return;
 		}
-		PrivateInsertRecursive(node->rChild, element);
+		else
+		{
+			PrivateInsertRecursive(node->rChild, element);
+		}
 	}
-
 	else
 	{
 		if (node->lChild == nullptr)
@@ -183,8 +194,78 @@ inline void BinarySearchTree<T>::PrivateInsertRecursive(Node<T>* node, T element
 			node->lChild->value = element;
 			return;
 		}
-		PrivateInsertRecursive(node->lChild, element);
+		else
+		{
+			PrivateInsertRecursive(node->lChild, element);
+		}
+
 	}
+}
+
+
+template<class T>
+inline Node<T>* BinarySearchTree<T>::PrivateDeleteRecursively(Node<T>* currentNode, T elementToDelete)
+{
+	if (currentNode == nullptr)
+	{
+		return nullptr;
+	}
+
+	if (elementToDelete > currentNode->value)
+	{
+		currentNode->rChild=PrivateDeleteRecursively(currentNode->rChild, elementToDelete);
+		return currentNode;
+	}
+
+	else if (elementToDelete < currentNode->value)
+	{
+		currentNode->lChild=	PrivateDeleteRecursively(currentNode->lChild, elementToDelete);
+		return currentNode;
+	}
+
+	else
+	{
+		if (currentNode->lChild == nullptr && currentNode->rChild == nullptr)
+		{
+			delete(currentNode);
+			return nullptr;
+		}
+
+		else if (currentNode->lChild == nullptr && currentNode->rChild != nullptr)
+		{
+			currentNode->value = currentNode->rChild->value;
+			currentNode->rChild = PrivateDeleteRecursively(currentNode->rChild, currentNode->rChild->value);
+			return(currentNode);
+		}
+
+		else if (currentNode->rChild == nullptr && currentNode->lChild != nullptr)
+		{
+			currentNode->value = currentNode->lChild->value;
+			currentNode->lChild = PrivateDeleteRecursively(currentNode->lChild, currentNode->lChild->value);
+			return(currentNode);
+		}
+
+		else
+		{
+			Node<T>* predecessorNode = FindPredecessor(currentNode);
+			currentNode->value = predecessorNode->value;
+			currentNode->lChild = PrivateDeleteRecursively(currentNode->lChild, predecessorNode->value);
+			return currentNode;
+		}
+	}
+}
+
+template<class T>
+inline Node<T>* BinarySearchTree<T>::FindPredecessor(Node<T>* nodePtr)
+{
+	Node<T>* currentNode = nodePtr->lChild;
+
+	while (currentNode->rChild != nullptr)
+	{
+		currentNode = currentNode->rChild;
+	}
+
+	return currentNode;
 }
 
 template<class T>

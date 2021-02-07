@@ -14,12 +14,16 @@ int main()
 {
 	{
 		BinarySearchTree<int> tree;
-		tree.InsertRecursive(0);
-		tree.InsertRecursive(1);
-		tree.InsertRecursive(-3);
-		tree.InsertRecursive(5);
+		tree.InsertRecursive(10);
+		tree.InsertRecursive(7);
+		tree.InsertRecursive(6);
+		tree.InsertRecursive(17);
+		tree.InsertRecursive(13);
+		tree.InsertRecursive(15);
+		tree.InsertRecursive(14);
+		tree.InsertRecursive(19);
+		tree.DeleteElement(10);
 		tree.DisplayInOrderIterative();
-
 	}
 
 	_CrtDumpMemoryLeaks();
