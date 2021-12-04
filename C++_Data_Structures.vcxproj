@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AVLTree.cpp" />
     <ClCompile Include="C++_Data_Structures.cpp" />
     <ClCompile Include="Recursion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayADT.h" />
+    <ClInclude Include="AVLTree.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="C++_Data_Structures.h" />
